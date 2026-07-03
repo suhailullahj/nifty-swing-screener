@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -41,6 +41,12 @@ async def index():
     """Serve the dashboard."""
     html_path = STATIC_DIR / "index.html"
     return HTMLResponse(content=html_path.read_text(encoding="utf-8"))
+
+
+@app.head("/")
+async def head_root():
+    """Handle HEAD requests for health checks."""
+    return Response(status_code=200)
 
 
 @app.get("/api/results")
